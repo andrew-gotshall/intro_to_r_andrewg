@@ -1,0 +1,47 @@
+---
+title: "01_In-Class_Activity-01"
+author: "Naga Vemprala"
+date: '2023-01-26'
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## First in-class activity on R objects. 
+
+#### Question: 1 
+```{r chunk1, echo = F}
+gender <- factor(c("M", "F"), labels = c("Male", "Female"))
+print("Gender variable before calling function")
+print("----------------------------------------")
+print(gender)
+print("----------------------------------------")
+print("Gender variable After calling function")
+print("----------------------------------------")
+# Call the function fetch_gender and print it 
+
+```
+
+#### Question: 2
+```{r chunk2}
+# Vector 1 - Create a numeric vector of length 5 with the course ids 101, 255, 355, 461, 491
+# Vector 2 - Create a character character vector of length 5 and provide the course titles for these 5 courses as, "Software Applications", "Introduction to OTM", "Decision Modeling and Analytics", "R Programming for Business and Analytics", "Intro to Text Analytics".
+# Vector 3 - Create a first day of class vector (Make sure that this vector is a date vectors)
+# Vector 4 - Create a start time vector (Make sure that this vector is a time vectors)
+# Include date and time e.g., "2023-01-16 14:10:00"
+# Vector 5 - Create a end time vector (Make sure that this vector is a time vectors)
+# Vector 6 - Create a class frequency vector (a numerical vector, 1 represents the class meets once a week, 2 represents the class meets twice a week, etc.)
+# Vector 7 - Create a class frequency character vector (R for Thursday, MWF for Monday-Wednesday-Friday class etc)
+# Create a data frame using these above vectors
+
+```
+
+#### Question: 3
+```{r}
+# Create a function to read the first day of class as string and the class frequency to return the next day of the class in the week. 
+# Implement switch case instead of a sequence of if-else statements  
+```
+
+
