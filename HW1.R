@@ -26,6 +26,7 @@ start_date <- round_date(
   week_start = getOption("lubridate.week.start", 2)
 )
 
+
 numeric_day <- function(class_frequency) {
   n_day <- switch(class_frequency,
          "M" = 1,
@@ -47,17 +48,91 @@ for (i in 1:nrow(dfHW1)) {
   dfHW1[i, "numeric_day"] = numeric_day(dfHW1[i, "Class_Frequency"])
 }
 
+checklate_start <- function(Start_Date, numeric_day) {
+  if ((numeric_day == 1) && (Start_Date == "2023-01-16")) {
+    late <- "False"
+  }
+  else if ((numeric_day == 2) && ((Start_Date == "2023-01-17") || 
+                                  (Start_Date == "2023-01-16"))) {
+    late <- "False"
+  }
+  else if ((numeric_day == 3) && ((Start_Date == "2023-01-18") || 
+                                  (Start_Date == "2023-01-17") || 
+                                  (Start_Date == "2023-01-16"))) {
+    late <- "False"
+  }
+  else if ((numeric_day == 4) && ((Start_Date == "2023-01-19") || 
+                                  (Start_Date == "2023-01-18") || 
+                                  (Start_Date == "2023-01-17") || 
+                                  (Start_Date == "2023-01-16"))) {
+    late <- "False"
+  }
+  else if ((numeric_day == 5) && ((Start_Date == "2023-01-20") || 
+                                  (Start_Date == "2023-01-19") || 
+                                  (Start_Date == "2023-01-17") || 
+                                  (Start_Date == "2023-01-16"))) {
+    late <- "False"
+  }
+  else {
+    late <- "True"
+  }
+  late
+}
+
+for (i in 1:nrow(dfHW1)) {
+  dfHW1[i, "late_start"] = 
+    checklate_start(dfHW1[i, "Start_Date"],dfHW1[i, "numeric_day"])
+}
 
 
-
-
-
-dfHW1$late_start <- ifelse(dfHW1$Start_Date == start_date, 
-                           "False", "True")
 
 
 # Question 3 Determine if there are discrepancies between the class start
 # date and the class frequency.
+
+probableStartDate <- function(numeric_day) {
+  if (numeric_day == 1) {
+    day1 <- "Monday"
+  }
+  else if (numeric_day == 2) {
+    day1 <- "Tuesday"
+  }
+  else if (numeric_day == 3) {
+    day1 <- "Wednesday"
+  }
+  else if (numeric_day == 4) {
+    day1 <- "Thursday"
+  }
+  else if (numeric_day == 5) {
+    day1 <- "Friday"
+  }
+  else {
+    day1 <- "fail"
+  }
+  day1
+}
+
+for (i in 1:nrow(dfHW1)) {
+  dfHW1[i, "ProbableStartDate"] = 
+    probableStartDate(dfHW1[i, "numeric_day"])
+}
+
+
+checkStart <- function(ProbableStartDate, Start_Date) {
+  if (weekdays(Start_Date) == ProbableStartDate) {
+    accurate <- "True"
+  }
+  else {
+    accurate <- "False"
+  }
+  accurate
+}
+
+for (i in 1:nrow(dfHW1)) {
+  dfHW1[i, "checkStart"] = 
+    checkStart(dfHW1[i, "ProbableStartDate"],dfHW1[i, "Start_Date"])
+}
+
 
 
 # Question 4
@@ -67,16 +142,18 @@ extract_class_schedule <- function(class_time=0,
                                    class_frequency = 0) {
   if ( (class_time != 0) && (before_after != 0)) {
     if(before_after == "after"){ 
-      df2 <- df1[hour(df1[, "Start_Time"]) > class_time,]
+      df2 <- dfHW1[hour(dfHW1[, "Start_Time"]) > class_time,]
     } else if (before_after == "before") {
-      df2 <- df1[hour(df1[, "Start_Time"]) <= class_time,]
+      df2 <- dfHW1[hour(dfHW1[, "Start_Time"]) <= class_time,]
     }
   } 
   df2
 }
 df3 <- extract_class_schedule(class_time = 12, 
                               before_after = "after")    
-    
+
+extract_class_schedule(class_time = 10, 
+                       before_after = "before")
 #question 5
 
 overlapping_classes <- function(row_idx) {
@@ -95,6 +172,8 @@ overlapping_classes <- function(row_idx) {
   }
   list(overlap_class_list)
 }
+
+
 
 
 
