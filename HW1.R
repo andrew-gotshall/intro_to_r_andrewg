@@ -92,9 +92,6 @@ overlapping_classes <- function(row_idx) {
 
 
 
-dfHW1$overlap_classes <- ""
-for (i in 1:nrow(dfHW1))
-
 
 
 
