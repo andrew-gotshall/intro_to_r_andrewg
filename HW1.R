@@ -40,18 +40,24 @@ numeric_day <- function(class_frequency) {
 }
 
 numeric_day("F")
+
 dfHW1$numeric_day <- 0
 
-dfHW1$late_start <- ifelse(dfHW1$Start_Date == start_date, 
-                           "False", "True")
-
-# idk what this is
 for (i in 1:nrow(dfHW1)) {
   dfHW1[i, "numeric_day"] = numeric_day(dfHW1[i, "Class_Frequency"])
 }
 
 
-# Question 3
+
+
+
+
+dfHW1$late_start <- ifelse(dfHW1$Start_Date == start_date, 
+                           "False", "True")
+
+
+# Question 3 Determine if there are discrepancies between the class start
+# date and the class frequency.
 
 
 # Question 4
