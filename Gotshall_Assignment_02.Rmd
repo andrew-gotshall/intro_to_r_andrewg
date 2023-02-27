@@ -1,0 +1,97 @@
+---
+title: "Gotshall_Assignment_02"
+author: "Andrew G"
+date: "2023-02-27"
+output: github_document
+---
+
+```{r read .csv}
+library(rmarkdown)
+library(tidyverse)
+library(readr)
+HW2 <- read_csv("Input/HW2.csv")
+View(HW2)
+
+
+```
+
+```{r question 1}
+summary(HW2)
+```
+
+
+```{r question 2}
+#Orders by year and segment
+library(ggplot2)
+ layer1 <- ggplot(data = HW2)
+
+layer1 +
+  geom_bar(aes(x = year, fill = segment)) +
+  geom_text(aes(x = year, label = ..count.. ), 
+            stat =  "count")
+
+```
+```{r Question 3}
+#Which segment is the best seller?
+
+layer1 +
+  geom_bar(aes(x = segment)) +
+  geom_text(aes(x = segment, label = ..count.. ), 
+            stat =  "count")
+
+#Consumer is the largest seller 
+```
+```{r Question 4}
+
+#Create a bar chart of regional orders. 
+
+
+
+library(dplyr)
+orders_by_category <- HW2 %>% 
+  select(category, sub_category, sales, quantity, discount, profit, shipping_cost) %>%
+  group_by(category, sub_category) %>% 
+  summarise(sales = sum(sales),
+            quantity = sum(quantity),
+            discount = sum(discount),
+            profit = sum(profit),
+            shipping_cost = sum(shipping_cost)
+            )
+
+HW2 %>%
+  group_by(region) %>%
+  summarize(count=n()) %>%
+  ggplot(aes(y=reorder(region,(count)), x=count))+
+  geom_bar(position='dodge', stat= 'identity', fill="green")+
+  geom_text(aes(label=count))+
+  labs(y="Region")
+
+#Central recieves the most orders. Canada recieves the least orders
+
+```
+
+```{r Question 5}
+
+
+HW2 %>% 
+  mutate(total_profit = sum(profit)) %>%
+  group_by(region) %>%
+  summarize(total_profit = sum(profit)) %>%
+  ggplot(aes(x=region,y=total_profit,fill=region)) +
+  geom_bar(stat="identity")+
+  coord_polar()+
+  scale_y_continuous(labels=scales::dollar)
+
+
+
+```
+```{r question 6}
+
+ggplot(HW2,aes(x=profit))+
+  geom_density()+
+  scale_x_continuous(limits=c(-125,125))
+
+#Most of the profit is centered on the 0-25 range
+
+```
+
