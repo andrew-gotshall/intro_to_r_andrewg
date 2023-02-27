@@ -12,7 +12,6 @@ library(readr)
 HW2 <- read_csv("Input/HW2.csv")
 View(HW2)
 
-
 ```
 
 ```{r question 1}
