@@ -1,0 +1,119 @@
+---
+title: "HW3"
+author: "Andrew G"
+date: "2023-03-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r Question 1}
+library(tidyverse)
+View(diamonds)
+library(ggplot2)
+
+diamonds$cut <- factor(diamonds$cut)
+
+anova_result <- aov(price ~ cut, data = diamonds)
+summary(anova_result)
+
+# The Null hypothesis is that all the different cuts of diamonds will have them
+# same price
+# The Alternative hypothesis is that at least one group of diamonds has a different
+# mean price than the others.
+
+class(diamonds)
+names(diamonds)
+```
+
+```{r Question 2?}
+
+diamonds$cut <- factor(diamonds$cut)
+anova_result <- oneway.test(price ~ cut, data = diamonds, var.equal = TRUE)
+                     
+summary(anova_result)
+
+# The summary data is similar to the first question. Even though we assumed that 
+# all variances were equal this did not change the summary
+
+```
+
+```{r Question 3}
+
+library(ggplot2)
+tukey_result <- TukeyHSD(anova_result)
+
+par(mar = c(5,8,4,2))
+plot(tukey_result, las = 1, col = "black")
+
+
+```
+```{r Question 4}
+
+
+subset_data <- subset(diamonds, cut %in% c("Good", "Very Good"))
+anova_resultGVG <- aov(price ~ cut, data = subset_data)
+summary(anova_resultGVG)
+
+# The null hypothesis is that there is no difference in mean prices between 
+# Good and Very Good diamnonds
+# The alternate hypothesis is that there is a difference in price between 
+# Good and Very Good diamnonds.
+
+```
+
+```{r Question 5}
+
+tukey_resultGVG <- TukeyHSD(anova_resultGVG)
+
+par(mar = c(5,8,4,2))
+plot(tukey_resultGVG, las = 1, col = "black")
+
+#The average difference in price between Good and Very Good diamonds is 50
+```
+
+```{r Question 6}
+
+diamonds$cut <- factor(diamonds$cut)
+diamonds$color <- factor(diamonds$color)
+
+model <- lm(price ~ cut + carat + color + depth, data = diamonds)
+summary(model)
+
+# All coefficients, cut, carat, color, depth impact the price of the diamonds
+# at a .05 significance or better. Each predictor variable is associated with
+# the price of the diamond when the other variables are adjucted.
+
+```
+```{r Question 7?}
+
+library(leaps)
+diamonds$cut <- factor(diamonds$cut)
+diamonds$color <- factor(diamonds$color)
+
+regfit.full <- regsubsets(price ~ ., data = diamonds, nvmax = ncol(diamonds)-1, 
+                          method = "forward")
+summary(regfit.full)
+
+final.model <- lm(price ~ carat + x + y + z + cut, data = diamonds)
+summary(final.model)
+
+
+
+```
+```{r Question 8}
+
+
+model <- lm(price ~ cut + carat + color + depth, data = diamonds)
+
+sample <- diamonds[sample(nrow(diamonds), 1000), ]
+par(mfrow = c(2,2))
+plot(model, newdata = sample)
+
+
+
+```
+
